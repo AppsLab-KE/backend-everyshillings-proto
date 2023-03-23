@@ -17,9 +17,12 @@ Download library
 ```shell
 go get github.com/AppsLab-KE/backend-everyshillings-proto
 ```
-Import 
+Import example
 ```go
-import pb "github.com/AppsLab-KE/backend-everyshillings-proto"
+import(
+	"github.com/AppsLab-KE/backend-everyshillings-proto/auth"
+	"github.com/AppsLab-KE/backend-everyshillings-proto/exchange"
+)
 ```
 
 ### Import python code
