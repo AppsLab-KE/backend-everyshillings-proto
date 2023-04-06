@@ -1,10 +1,2 @@
-./.idea
 /.idea
-
-/build
-./build
-
-/.env
-./.env
-./venv
-venv
+.idea
