@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	OtpService_HealthCheck_FullMethodName      = "/otp.OtpService/HealthCheck"
 	OtpService_CreateAndSendOtp_FullMethodName = "/otp.OtpService/CreateAndSendOtp"
+	OtpService_VerifyOtp_FullMethodName        = "/otp.OtpService/VerifyOtp"
 )
 
 // OtpServiceClient is the client API for OtpService service.
@@ -28,7 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OtpServiceClient interface {
 	HealthCheck(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*HealthResponse, error)
-	CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*DefaultResponse, error)
+	CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*CreateAndSendOtpRes, error)
+	VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts ...grpc.CallOption) (*VerifyOTPRes, error)
 }
 
 type otpServiceClient struct {
@@ -48,9 +50,18 @@ func (c *otpServiceClient) HealthCheck(ctx context.Context, in *DefaultRequest, 
 	return out, nil
 }
 
-func (c *otpServiceClient) CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*DefaultResponse, error) {
-	out := new(DefaultResponse)
+func (c *otpServiceClient) CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*CreateAndSendOtpRes, error) {
+	out := new(CreateAndSendOtpRes)
 	err := c.cc.Invoke(ctx, OtpService_CreateAndSendOtp_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *otpServiceClient) VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts ...grpc.CallOption) (*VerifyOTPRes, error) {
+	out := new(VerifyOTPRes)
+	err := c.cc.Invoke(ctx, OtpService_VerifyOtp_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +73,8 @@ func (c *otpServiceClient) CreateAndSendOtp(ctx context.Context, in *CreateAndSe
 // for forward compatibility
 type OtpServiceServer interface {
 	HealthCheck(context.Context, *DefaultRequest) (*HealthResponse, error)
-	CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*DefaultResponse, error)
+	CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*CreateAndSendOtpRes, error)
+	VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error)
 	mustEmbedUnimplementedOtpServiceServer()
 }
 
@@ -73,8 +85,11 @@ type UnimplementedOtpServiceServer struct {
 func (UnimplementedOtpServiceServer) HealthCheck(context.Context, *DefaultRequest) (*HealthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
 }
-func (UnimplementedOtpServiceServer) CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*DefaultResponse, error) {
+func (UnimplementedOtpServiceServer) CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*CreateAndSendOtpRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAndSendOtp not implemented")
+}
+func (UnimplementedOtpServiceServer) VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtp not implemented")
 }
 func (UnimplementedOtpServiceServer) mustEmbedUnimplementedOtpServiceServer() {}
 
@@ -125,6 +140,24 @@ func _OtpService_CreateAndSendOtp_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OtpService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyOTPReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OtpServiceServer).VerifyOtp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OtpService_VerifyOtp_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OtpServiceServer).VerifyOtp(ctx, req.(*VerifyOTPReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OtpService_ServiceDesc is the grpc.ServiceDesc for OtpService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +172,10 @@ var OtpService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAndSendOtp",
 			Handler:    _OtpService_CreateAndSendOtp_Handler,
+		},
+		{
+			MethodName: "VerifyOtp",
+			Handler:    _OtpService_VerifyOtp_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
