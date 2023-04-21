@@ -22,6 +22,7 @@ const (
 	OtpService_HealthCheck_FullMethodName      = "/otp.OtpService/HealthCheck"
 	OtpService_CreateAndSendOtp_FullMethodName = "/otp.OtpService/CreateAndSendOtp"
 	OtpService_VerifyOtp_FullMethodName        = "/otp.OtpService/VerifyOtp"
+	OtpService_ResendOTP_FullMethodName        = "/otp.OtpService/ResendOTP"
 )
 
 // OtpServiceClient is the client API for OtpService service.
@@ -31,6 +32,7 @@ type OtpServiceClient interface {
 	HealthCheck(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*HealthResponse, error)
 	CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*CreateAndSendOtpRes, error)
 	VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts ...grpc.CallOption) (*VerifyOTPRes, error)
+	ResendOTP(ctx context.Context, in *ResendOTPRed, opts ...grpc.CallOption) (*ResendOTPRes, error)
 }
 
 type otpServiceClient struct {
@@ -68,6 +70,15 @@ func (c *otpServiceClient) VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts
 	return out, nil
 }
 
+func (c *otpServiceClient) ResendOTP(ctx context.Context, in *ResendOTPRed, opts ...grpc.CallOption) (*ResendOTPRes, error) {
+	out := new(ResendOTPRes)
+	err := c.cc.Invoke(ctx, OtpService_ResendOTP_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OtpServiceServer is the server API for OtpService service.
 // All implementations must embed UnimplementedOtpServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type OtpServiceServer interface {
 	HealthCheck(context.Context, *DefaultRequest) (*HealthResponse, error)
 	CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*CreateAndSendOtpRes, error)
 	VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error)
+	ResendOTP(context.Context, *ResendOTPRed) (*ResendOTPRes, error)
 	mustEmbedUnimplementedOtpServiceServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedOtpServiceServer) CreateAndSendOtp(context.Context, *CreateAn
 }
 func (UnimplementedOtpServiceServer) VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtp not implemented")
+}
+func (UnimplementedOtpServiceServer) ResendOTP(context.Context, *ResendOTPRed) (*ResendOTPRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResendOTP not implemented")
 }
 func (UnimplementedOtpServiceServer) mustEmbedUnimplementedOtpServiceServer() {}
 
@@ -158,6 +173,24 @@ func _OtpService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OtpService_ResendOTP_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResendOTPRed)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OtpServiceServer).ResendOTP(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OtpService_ResendOTP_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OtpServiceServer).ResendOTP(ctx, req.(*ResendOTPRed))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OtpService_ServiceDesc is the grpc.ServiceDesc for OtpService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var OtpService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyOtp",
 			Handler:    _OtpService_VerifyOtp_Handler,
+		},
+		{
+			MethodName: "ResendOTP",
+			Handler:    _OtpService_ResendOTP_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
