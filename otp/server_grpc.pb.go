@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.21.12
-// source: otp/server.proto
+// source: server.proto
 
 package otp
 
@@ -32,7 +32,7 @@ type OtpServiceClient interface {
 	HealthCheck(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*HealthResponse, error)
 	CreateAndSendOtp(ctx context.Context, in *CreateAndSendOtpReq, opts ...grpc.CallOption) (*CreateAndSendOtpRes, error)
 	VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts ...grpc.CallOption) (*VerifyOTPRes, error)
-	ResendOTP(ctx context.Context, in *ResendOTPRed, opts ...grpc.CallOption) (*ResendOTPRes, error)
+	ResendOTP(ctx context.Context, in *ResendOTPReq, opts ...grpc.CallOption) (*ResendOTPRes, error)
 }
 
 type otpServiceClient struct {
@@ -70,7 +70,7 @@ func (c *otpServiceClient) VerifyOtp(ctx context.Context, in *VerifyOTPReq, opts
 	return out, nil
 }
 
-func (c *otpServiceClient) ResendOTP(ctx context.Context, in *ResendOTPRed, opts ...grpc.CallOption) (*ResendOTPRes, error) {
+func (c *otpServiceClient) ResendOTP(ctx context.Context, in *ResendOTPReq, opts ...grpc.CallOption) (*ResendOTPRes, error) {
 	out := new(ResendOTPRes)
 	err := c.cc.Invoke(ctx, OtpService_ResendOTP_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -86,7 +86,7 @@ type OtpServiceServer interface {
 	HealthCheck(context.Context, *DefaultRequest) (*HealthResponse, error)
 	CreateAndSendOtp(context.Context, *CreateAndSendOtpReq) (*CreateAndSendOtpRes, error)
 	VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error)
-	ResendOTP(context.Context, *ResendOTPRed) (*ResendOTPRes, error)
+	ResendOTP(context.Context, *ResendOTPReq) (*ResendOTPRes, error)
 	mustEmbedUnimplementedOtpServiceServer()
 }
 
@@ -103,7 +103,7 @@ func (UnimplementedOtpServiceServer) CreateAndSendOtp(context.Context, *CreateAn
 func (UnimplementedOtpServiceServer) VerifyOtp(context.Context, *VerifyOTPReq) (*VerifyOTPRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtp not implemented")
 }
-func (UnimplementedOtpServiceServer) ResendOTP(context.Context, *ResendOTPRed) (*ResendOTPRes, error) {
+func (UnimplementedOtpServiceServer) ResendOTP(context.Context, *ResendOTPReq) (*ResendOTPRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResendOTP not implemented")
 }
 func (UnimplementedOtpServiceServer) mustEmbedUnimplementedOtpServiceServer() {}
@@ -174,7 +174,7 @@ func _OtpService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _OtpService_ResendOTP_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResendOTPRed)
+	in := new(ResendOTPReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func _OtpService_ResendOTP_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: OtpService_ResendOTP_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OtpServiceServer).ResendOTP(ctx, req.(*ResendOTPRed))
+		return srv.(OtpServiceServer).ResendOTP(ctx, req.(*ResendOTPReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -216,5 +216,5 @@ var OtpService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "otp/server.proto",
+	Metadata: "server.proto",
 }
