@@ -19,11 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DbService_HealthCheck_FullMethodName    = "/db.DbService/HealthCheck"
-	DbService_CreateUser_FullMethodName     = "/db.DbService/CreateUser"
-	DbService_UpdateUser_FullMethodName     = "/db.DbService/UpdateUser"
-	DbService_GetPagedUsers_FullMethodName  = "/db.DbService/GetPagedUsers"
-	DbService_GetUserByField_FullMethodName = "/db.DbService/GetUserByField"
+	DbService_HealthCheck_FullMethodName          = "/db.DbService/HealthCheck"
+	DbService_CreateUser_FullMethodName           = "/db.DbService/CreateUser"
+	DbService_UpdateUser_FullMethodName           = "/db.DbService/UpdateUser"
+	DbService_GetPagedUsers_FullMethodName        = "/db.DbService/GetPagedUsers"
+	DbService_GetUserByField_FullMethodName       = "/db.DbService/GetUserByField"
+	DbService_CreateConversionRate_FullMethodName = "/db.DbService/CreateConversionRate"
+	DbService_ReadConversionRate_FullMethodName   = "/db.DbService/ReadConversionRate"
+	DbService_UpdateConversionRate_FullMethodName = "/db.DbService/UpdateConversionRate"
+	DbService_DeleteConversionRate_FullMethodName = "/db.DbService/DeleteConversionRate"
 )
 
 // DbServiceClient is the client API for DbService service.
@@ -36,6 +40,10 @@ type DbServiceClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserRes, error)
 	GetPagedUsers(ctx context.Context, in *GetPagedUsersReq, opts ...grpc.CallOption) (*GetPagedUsersRes, error)
 	GetUserByField(ctx context.Context, in *GetByfieldReq, opts ...grpc.CallOption) (*GetByfieldRes, error)
+	CreateConversionRate(ctx context.Context, in *CreateConversionRateRequest, opts ...grpc.CallOption) (*CreateConversionRateResponse, error)
+	ReadConversionRate(ctx context.Context, in *ReadConversionRateRequest, opts ...grpc.CallOption) (*ReadConversionRateResponse, error)
+	UpdateConversionRate(ctx context.Context, in *UpdateConversionRateRequest, opts ...grpc.CallOption) (*UpdateConversionRateResponse, error)
+	DeleteConversionRate(ctx context.Context, in *DeleteConversionRateRequest, opts ...grpc.CallOption) (*DeleteConversionRateResponse, error)
 }
 
 type dbServiceClient struct {
@@ -91,6 +99,42 @@ func (c *dbServiceClient) GetUserByField(ctx context.Context, in *GetByfieldReq,
 	return out, nil
 }
 
+func (c *dbServiceClient) CreateConversionRate(ctx context.Context, in *CreateConversionRateRequest, opts ...grpc.CallOption) (*CreateConversionRateResponse, error) {
+	out := new(CreateConversionRateResponse)
+	err := c.cc.Invoke(ctx, DbService_CreateConversionRate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) ReadConversionRate(ctx context.Context, in *ReadConversionRateRequest, opts ...grpc.CallOption) (*ReadConversionRateResponse, error) {
+	out := new(ReadConversionRateResponse)
+	err := c.cc.Invoke(ctx, DbService_ReadConversionRate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) UpdateConversionRate(ctx context.Context, in *UpdateConversionRateRequest, opts ...grpc.CallOption) (*UpdateConversionRateResponse, error) {
+	out := new(UpdateConversionRateResponse)
+	err := c.cc.Invoke(ctx, DbService_UpdateConversionRate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) DeleteConversionRate(ctx context.Context, in *DeleteConversionRateRequest, opts ...grpc.CallOption) (*DeleteConversionRateResponse, error) {
+	out := new(DeleteConversionRateResponse)
+	err := c.cc.Invoke(ctx, DbService_DeleteConversionRate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DbServiceServer is the server API for DbService service.
 // All implementations must embed UnimplementedDbServiceServer
 // for forward compatibility
@@ -101,6 +145,10 @@ type DbServiceServer interface {
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserRes, error)
 	GetPagedUsers(context.Context, *GetPagedUsersReq) (*GetPagedUsersRes, error)
 	GetUserByField(context.Context, *GetByfieldReq) (*GetByfieldRes, error)
+	CreateConversionRate(context.Context, *CreateConversionRateRequest) (*CreateConversionRateResponse, error)
+	ReadConversionRate(context.Context, *ReadConversionRateRequest) (*ReadConversionRateResponse, error)
+	UpdateConversionRate(context.Context, *UpdateConversionRateRequest) (*UpdateConversionRateResponse, error)
+	DeleteConversionRate(context.Context, *DeleteConversionRateRequest) (*DeleteConversionRateResponse, error)
 	mustEmbedUnimplementedDbServiceServer()
 }
 
@@ -122,6 +170,18 @@ func (UnimplementedDbServiceServer) GetPagedUsers(context.Context, *GetPagedUser
 }
 func (UnimplementedDbServiceServer) GetUserByField(context.Context, *GetByfieldReq) (*GetByfieldRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByField not implemented")
+}
+func (UnimplementedDbServiceServer) CreateConversionRate(context.Context, *CreateConversionRateRequest) (*CreateConversionRateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateConversionRate not implemented")
+}
+func (UnimplementedDbServiceServer) ReadConversionRate(context.Context, *ReadConversionRateRequest) (*ReadConversionRateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadConversionRate not implemented")
+}
+func (UnimplementedDbServiceServer) UpdateConversionRate(context.Context, *UpdateConversionRateRequest) (*UpdateConversionRateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateConversionRate not implemented")
+}
+func (UnimplementedDbServiceServer) DeleteConversionRate(context.Context, *DeleteConversionRateRequest) (*DeleteConversionRateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteConversionRate not implemented")
 }
 func (UnimplementedDbServiceServer) mustEmbedUnimplementedDbServiceServer() {}
 
@@ -226,6 +286,78 @@ func _DbService_GetUserByField_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DbService_CreateConversionRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateConversionRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).CreateConversionRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_CreateConversionRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).CreateConversionRate(ctx, req.(*CreateConversionRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_ReadConversionRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadConversionRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).ReadConversionRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_ReadConversionRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).ReadConversionRate(ctx, req.(*ReadConversionRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_UpdateConversionRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateConversionRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).UpdateConversionRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_UpdateConversionRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).UpdateConversionRate(ctx, req.(*UpdateConversionRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_DeleteConversionRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteConversionRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).DeleteConversionRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_DeleteConversionRate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).DeleteConversionRate(ctx, req.(*DeleteConversionRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DbService_ServiceDesc is the grpc.ServiceDesc for DbService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -252,6 +384,22 @@ var DbService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserByField",
 			Handler:    _DbService_GetUserByField_Handler,
+		},
+		{
+			MethodName: "CreateConversionRate",
+			Handler:    _DbService_CreateConversionRate_Handler,
+		},
+		{
+			MethodName: "ReadConversionRate",
+			Handler:    _DbService_ReadConversionRate_Handler,
+		},
+		{
+			MethodName: "UpdateConversionRate",
+			Handler:    _DbService_UpdateConversionRate_Handler,
+		},
+		{
+			MethodName: "DeleteConversionRate",
+			Handler:    _DbService_DeleteConversionRate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
