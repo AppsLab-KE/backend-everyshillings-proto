@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,15 +20,29 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DbService_HealthCheck_FullMethodName          = "/db.DbService/HealthCheck"
-	DbService_CreateUser_FullMethodName           = "/db.DbService/CreateUser"
-	DbService_UpdateUser_FullMethodName           = "/db.DbService/UpdateUser"
-	DbService_GetPagedUsers_FullMethodName        = "/db.DbService/GetPagedUsers"
-	DbService_GetUserByField_FullMethodName       = "/db.DbService/GetUserByField"
-	DbService_CreateConversionRate_FullMethodName = "/db.DbService/CreateConversionRate"
-	DbService_ReadConversionRate_FullMethodName   = "/db.DbService/ReadConversionRate"
-	DbService_UpdateConversionRate_FullMethodName = "/db.DbService/UpdateConversionRate"
-	DbService_DeleteConversionRate_FullMethodName = "/db.DbService/DeleteConversionRate"
+	DbService_HealthCheck_FullMethodName             = "/db.DbService/HealthCheck"
+	DbService_CreateUser_FullMethodName              = "/db.DbService/CreateUser"
+	DbService_UpdateUser_FullMethodName              = "/db.DbService/UpdateUser"
+	DbService_GetPagedUsers_FullMethodName           = "/db.DbService/GetPagedUsers"
+	DbService_GetUserByField_FullMethodName          = "/db.DbService/GetUserByField"
+	DbService_CreateConversionRate_FullMethodName    = "/db.DbService/CreateConversionRate"
+	DbService_ReadConversionRate_FullMethodName      = "/db.DbService/ReadConversionRate"
+	DbService_UpdateConversionRate_FullMethodName    = "/db.DbService/UpdateConversionRate"
+	DbService_DeleteConversionRate_FullMethodName    = "/db.DbService/DeleteConversionRate"
+	DbService_CreateAccount_FullMethodName           = "/db.DbService/CreateAccount"
+	DbService_DeleteAccount_FullMethodName           = "/db.DbService/DeleteAccount"
+	DbService_UpdateAccount_FullMethodName           = "/db.DbService/UpdateAccount"
+	DbService_SearchAccount_FullMethodName           = "/db.DbService/SearchAccount"
+	DbService_CreateTransaction_FullMethodName       = "/db.DbService/CreateTransaction"
+	DbService_DeleteTransaction_FullMethodName       = "/db.DbService/DeleteTransaction"
+	DbService_UpdateTransaction_FullMethodName       = "/db.DbService/UpdateTransaction"
+	DbService_GetTransaction_FullMethodName          = "/db.DbService/GetTransaction"
+	DbService_GetTransactionByAccount_FullMethodName = "/db.DbService/GetTransactionByAccount"
+	DbService_CreateTrade_FullMethodName             = "/db.DbService/CreateTrade"
+	DbService_DeleteTrade_FullMethodName             = "/db.DbService/DeleteTrade"
+	DbService_UpdateTrade_FullMethodName             = "/db.DbService/UpdateTrade"
+	DbService_GetTrade_FullMethodName                = "/db.DbService/GetTrade"
+	DbService_GetTradeByAccount_FullMethodName       = "/db.DbService/GetTradeByAccount"
 )
 
 // DbServiceClient is the client API for DbService service.
@@ -40,10 +55,28 @@ type DbServiceClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserRes, error)
 	GetPagedUsers(ctx context.Context, in *GetPagedUsersReq, opts ...grpc.CallOption) (*GetPagedUsersRes, error)
 	GetUserByField(ctx context.Context, in *GetByfieldReq, opts ...grpc.CallOption) (*GetByfieldRes, error)
+	// RATES
 	CreateConversionRate(ctx context.Context, in *CreateConversionRateRequest, opts ...grpc.CallOption) (*CreateConversionRateResponse, error)
 	ReadConversionRate(ctx context.Context, in *ReadConversionRateRequest, opts ...grpc.CallOption) (*ReadConversionRateResponse, error)
 	UpdateConversionRate(ctx context.Context, in *UpdateConversionRateRequest, opts ...grpc.CallOption) (*UpdateConversionRateResponse, error)
 	DeleteConversionRate(ctx context.Context, in *DeleteConversionRateRequest, opts ...grpc.CallOption) (*DeleteConversionRateResponse, error)
+	// ACCOUNT
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
+	DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*DeleteAccountResponse, error)
+	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*UpdateAccountResponse, error)
+	SearchAccount(ctx context.Context, in *SearchAccountRequest, opts ...grpc.CallOption) (*SearchAccountResponse, error)
+	// TRANSACTION
+	CreateTransaction(ctx context.Context, in *CreateTransactionRequest, opts ...grpc.CallOption) (*CreateTransactionResponse, error)
+	DeleteTransaction(ctx context.Context, in *DeleteTransactionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateTransaction(ctx context.Context, in *UpdateTransactionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*Transaction, error)
+	GetTransactionByAccount(ctx context.Context, in *GetTransactionByAccountRequest, opts ...grpc.CallOption) (*GetTransactionByAccountResponse, error)
+	// TRADING
+	CreateTrade(ctx context.Context, in *CreateTradeRequest, opts ...grpc.CallOption) (*CreateTradeResponse, error)
+	DeleteTrade(ctx context.Context, in *DeleteTradeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateTrade(ctx context.Context, in *UpdateTradeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetTrade(ctx context.Context, in *GetTradeRequest, opts ...grpc.CallOption) (*Trade, error)
+	GetTradeByAccount(ctx context.Context, in *GetTradeByAccountRequest, opts ...grpc.CallOption) (*GetTradeByAccountResponse, error)
 }
 
 type dbServiceClient struct {
@@ -135,6 +168,132 @@ func (c *dbServiceClient) DeleteConversionRate(ctx context.Context, in *DeleteCo
 	return out, nil
 }
 
+func (c *dbServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error) {
+	out := new(CreateAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_CreateAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*DeleteAccountResponse, error) {
+	out := new(DeleteAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_DeleteAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*UpdateAccountResponse, error) {
+	out := new(UpdateAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_UpdateAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) SearchAccount(ctx context.Context, in *SearchAccountRequest, opts ...grpc.CallOption) (*SearchAccountResponse, error) {
+	out := new(SearchAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_SearchAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) CreateTransaction(ctx context.Context, in *CreateTransactionRequest, opts ...grpc.CallOption) (*CreateTransactionResponse, error) {
+	out := new(CreateTransactionResponse)
+	err := c.cc.Invoke(ctx, DbService_CreateTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) DeleteTransaction(ctx context.Context, in *DeleteTransactionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DbService_DeleteTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) UpdateTransaction(ctx context.Context, in *UpdateTransactionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DbService_UpdateTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*Transaction, error) {
+	out := new(Transaction)
+	err := c.cc.Invoke(ctx, DbService_GetTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) GetTransactionByAccount(ctx context.Context, in *GetTransactionByAccountRequest, opts ...grpc.CallOption) (*GetTransactionByAccountResponse, error) {
+	out := new(GetTransactionByAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_GetTransactionByAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) CreateTrade(ctx context.Context, in *CreateTradeRequest, opts ...grpc.CallOption) (*CreateTradeResponse, error) {
+	out := new(CreateTradeResponse)
+	err := c.cc.Invoke(ctx, DbService_CreateTrade_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) DeleteTrade(ctx context.Context, in *DeleteTradeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DbService_DeleteTrade_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) UpdateTrade(ctx context.Context, in *UpdateTradeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DbService_UpdateTrade_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) GetTrade(ctx context.Context, in *GetTradeRequest, opts ...grpc.CallOption) (*Trade, error) {
+	out := new(Trade)
+	err := c.cc.Invoke(ctx, DbService_GetTrade_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dbServiceClient) GetTradeByAccount(ctx context.Context, in *GetTradeByAccountRequest, opts ...grpc.CallOption) (*GetTradeByAccountResponse, error) {
+	out := new(GetTradeByAccountResponse)
+	err := c.cc.Invoke(ctx, DbService_GetTradeByAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DbServiceServer is the server API for DbService service.
 // All implementations must embed UnimplementedDbServiceServer
 // for forward compatibility
@@ -145,10 +304,28 @@ type DbServiceServer interface {
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserRes, error)
 	GetPagedUsers(context.Context, *GetPagedUsersReq) (*GetPagedUsersRes, error)
 	GetUserByField(context.Context, *GetByfieldReq) (*GetByfieldRes, error)
+	// RATES
 	CreateConversionRate(context.Context, *CreateConversionRateRequest) (*CreateConversionRateResponse, error)
 	ReadConversionRate(context.Context, *ReadConversionRateRequest) (*ReadConversionRateResponse, error)
 	UpdateConversionRate(context.Context, *UpdateConversionRateRequest) (*UpdateConversionRateResponse, error)
 	DeleteConversionRate(context.Context, *DeleteConversionRateRequest) (*DeleteConversionRateResponse, error)
+	// ACCOUNT
+	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
+	DeleteAccount(context.Context, *DeleteAccountRequest) (*DeleteAccountResponse, error)
+	UpdateAccount(context.Context, *UpdateAccountRequest) (*UpdateAccountResponse, error)
+	SearchAccount(context.Context, *SearchAccountRequest) (*SearchAccountResponse, error)
+	// TRANSACTION
+	CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error)
+	DeleteTransaction(context.Context, *DeleteTransactionRequest) (*emptypb.Empty, error)
+	UpdateTransaction(context.Context, *UpdateTransactionRequest) (*emptypb.Empty, error)
+	GetTransaction(context.Context, *GetTransactionRequest) (*Transaction, error)
+	GetTransactionByAccount(context.Context, *GetTransactionByAccountRequest) (*GetTransactionByAccountResponse, error)
+	// TRADING
+	CreateTrade(context.Context, *CreateTradeRequest) (*CreateTradeResponse, error)
+	DeleteTrade(context.Context, *DeleteTradeRequest) (*emptypb.Empty, error)
+	UpdateTrade(context.Context, *UpdateTradeRequest) (*emptypb.Empty, error)
+	GetTrade(context.Context, *GetTradeRequest) (*Trade, error)
+	GetTradeByAccount(context.Context, *GetTradeByAccountRequest) (*GetTradeByAccountResponse, error)
 	mustEmbedUnimplementedDbServiceServer()
 }
 
@@ -182,6 +359,48 @@ func (UnimplementedDbServiceServer) UpdateConversionRate(context.Context, *Updat
 }
 func (UnimplementedDbServiceServer) DeleteConversionRate(context.Context, *DeleteConversionRateRequest) (*DeleteConversionRateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteConversionRate not implemented")
+}
+func (UnimplementedDbServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+}
+func (UnimplementedDbServiceServer) DeleteAccount(context.Context, *DeleteAccountRequest) (*DeleteAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+}
+func (UnimplementedDbServiceServer) UpdateAccount(context.Context, *UpdateAccountRequest) (*UpdateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
+}
+func (UnimplementedDbServiceServer) SearchAccount(context.Context, *SearchAccountRequest) (*SearchAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchAccount not implemented")
+}
+func (UnimplementedDbServiceServer) CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaction not implemented")
+}
+func (UnimplementedDbServiceServer) DeleteTransaction(context.Context, *DeleteTransactionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTransaction not implemented")
+}
+func (UnimplementedDbServiceServer) UpdateTransaction(context.Context, *UpdateTransactionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransaction not implemented")
+}
+func (UnimplementedDbServiceServer) GetTransaction(context.Context, *GetTransactionRequest) (*Transaction, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransaction not implemented")
+}
+func (UnimplementedDbServiceServer) GetTransactionByAccount(context.Context, *GetTransactionByAccountRequest) (*GetTransactionByAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionByAccount not implemented")
+}
+func (UnimplementedDbServiceServer) CreateTrade(context.Context, *CreateTradeRequest) (*CreateTradeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTrade not implemented")
+}
+func (UnimplementedDbServiceServer) DeleteTrade(context.Context, *DeleteTradeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTrade not implemented")
+}
+func (UnimplementedDbServiceServer) UpdateTrade(context.Context, *UpdateTradeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTrade not implemented")
+}
+func (UnimplementedDbServiceServer) GetTrade(context.Context, *GetTradeRequest) (*Trade, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrade not implemented")
+}
+func (UnimplementedDbServiceServer) GetTradeByAccount(context.Context, *GetTradeByAccountRequest) (*GetTradeByAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTradeByAccount not implemented")
 }
 func (UnimplementedDbServiceServer) mustEmbedUnimplementedDbServiceServer() {}
 
@@ -358,6 +577,258 @@ func _DbService_DeleteConversionRate_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DbService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).CreateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_CreateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).DeleteAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_DeleteAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).DeleteAccount(ctx, req.(*DeleteAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).UpdateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_UpdateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).UpdateAccount(ctx, req.(*UpdateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_SearchAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).SearchAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_SearchAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).SearchAccount(ctx, req.(*SearchAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_CreateTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).CreateTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_CreateTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).CreateTransaction(ctx, req.(*CreateTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_DeleteTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).DeleteTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_DeleteTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).DeleteTransaction(ctx, req.(*DeleteTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_UpdateTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).UpdateTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_UpdateTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).UpdateTransaction(ctx, req.(*UpdateTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_GetTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).GetTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_GetTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).GetTransaction(ctx, req.(*GetTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_GetTransactionByAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionByAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).GetTransactionByAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_GetTransactionByAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).GetTransactionByAccount(ctx, req.(*GetTransactionByAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_CreateTrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTradeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).CreateTrade(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_CreateTrade_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).CreateTrade(ctx, req.(*CreateTradeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_DeleteTrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTradeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).DeleteTrade(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_DeleteTrade_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).DeleteTrade(ctx, req.(*DeleteTradeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_UpdateTrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTradeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).UpdateTrade(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_UpdateTrade_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).UpdateTrade(ctx, req.(*UpdateTradeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_GetTrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTradeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).GetTrade(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_GetTrade_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).GetTrade(ctx, req.(*GetTradeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DbService_GetTradeByAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTradeByAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DbServiceServer).GetTradeByAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DbService_GetTradeByAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DbServiceServer).GetTradeByAccount(ctx, req.(*GetTradeByAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DbService_ServiceDesc is the grpc.ServiceDesc for DbService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -400,6 +871,62 @@ var DbService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteConversionRate",
 			Handler:    _DbService_DeleteConversionRate_Handler,
+		},
+		{
+			MethodName: "CreateAccount",
+			Handler:    _DbService_CreateAccount_Handler,
+		},
+		{
+			MethodName: "DeleteAccount",
+			Handler:    _DbService_DeleteAccount_Handler,
+		},
+		{
+			MethodName: "UpdateAccount",
+			Handler:    _DbService_UpdateAccount_Handler,
+		},
+		{
+			MethodName: "SearchAccount",
+			Handler:    _DbService_SearchAccount_Handler,
+		},
+		{
+			MethodName: "CreateTransaction",
+			Handler:    _DbService_CreateTransaction_Handler,
+		},
+		{
+			MethodName: "DeleteTransaction",
+			Handler:    _DbService_DeleteTransaction_Handler,
+		},
+		{
+			MethodName: "UpdateTransaction",
+			Handler:    _DbService_UpdateTransaction_Handler,
+		},
+		{
+			MethodName: "GetTransaction",
+			Handler:    _DbService_GetTransaction_Handler,
+		},
+		{
+			MethodName: "GetTransactionByAccount",
+			Handler:    _DbService_GetTransactionByAccount_Handler,
+		},
+		{
+			MethodName: "CreateTrade",
+			Handler:    _DbService_CreateTrade_Handler,
+		},
+		{
+			MethodName: "DeleteTrade",
+			Handler:    _DbService_DeleteTrade_Handler,
+		},
+		{
+			MethodName: "UpdateTrade",
+			Handler:    _DbService_UpdateTrade_Handler,
+		},
+		{
+			MethodName: "GetTrade",
+			Handler:    _DbService_GetTrade_Handler,
+		},
+		{
+			MethodName: "GetTradeByAccount",
+			Handler:    _DbService_GetTradeByAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
